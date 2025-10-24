@@ -1,233 +1,227 @@
-# 🚀 Astro Auth - Full-Stack Authentication System
+# Voxen - AI Voice Agent Platform
 
-A modern, secure authentication system built with Node.js, Express, and PostgreSQL, featuring both manual registration/login and Google OAuth integration. The application includes a beautiful cosmic-themed UI with user reviews functionality.
+An intelligent, conversational AI assistant designed to interact naturally with users, understand their needs in real time, and provide quick, accurate, and personalized responses — making communication seamless and efficient.
 
-## ✨ Features
+## Features
 
-- **🔐 Dual Authentication Methods**
-  - Manual registration and login with email/password
-  - Google OAuth 2.0 integration
-  - JWT token-based authentication
+- User Authentication with JWT tokens
+- Google OAuth Integration
+- User Dashboard with personalized content
+- AI Chat Interface
+- Review System for user testimonials
+- Responsive Design with cosmic-themed UI
+- PostgreSQL Database with multiple tables
 
-- **👤 User Management**
-  - User profiles with profile pictures
-  - Secure password hashing with bcrypt
-  - Session management
+## Prerequisites
 
-- **⭐ Reviews System**
-  - Create, read, update, and delete reviews
-  - Star ratings (1-5 scale)
-  - User-specific review management
-  - Pagination support
+Before you begin, ensure you have the following installed:
 
-- **🎨 Modern UI**
-  - Responsive cosmic-themed design
-  - Animated starfield background
-  - Interactive chat interface
-  - Mobile-friendly layout
+- Node.js (v14 or higher) - https://nodejs.org/
+- PostgreSQL (v12 or higher) - https://www.postgresql.org/download/
+- npm (comes with Node.js)
+- Git (for cloning the repository)
 
-## 🛠️ Tech Stack
+## Installation
 
-- **Backend:** Node.js, Express.js
-- **Database:** PostgreSQL
-- **Authentication:** Passport.js, JWT, bcrypt
-- **Frontend:** Vanilla HTML, CSS, JavaScript
-- **OAuth:** Google OAuth 2.0
+### 1. Clone the Repository
 
-## 📋 Prerequisites
+```bash
+git clone https://github.com/shrutissajeev-boop/voxen.git
+cd voxen
+```
 
-Before running this application, make sure you have:
+### 2. Install Dependencies
 
-- Node.js (v14 or higher)
-- PostgreSQL database
-- Google OAuth credentials (Client ID and Secret)
+```bash
+npm install
+```
 
-## 🚀 Installation
+This will install all required packages:
+- express - Web framework
+- pg - PostgreSQL client
+- bcryptjs - Password hashing
+- jsonwebtoken - JWT authentication
+- passport & passport-google-oauth20 - Google OAuth
+- express-session - Session management
+- cors - Cross-origin resource sharing
+- dotenv - Environment variable management
+- ejs - Template engine
+- openai - OpenAI API integration
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repository-url>
-   cd astro-auth
-   ```
+### 3. Set Up PostgreSQL Database
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+Create a database:
+```sql
+CREATE DATABASE astro_auth;
+```
 
-3. **Set up PostgreSQL database**
-   - Create a database named `astro_auth`
-   - The application will automatically create the required tables on startup
+The application will automatically create the required tables on startup:
+- users - User accounts and profiles
+- reviews - User testimonials
+- conversations - Chat sessions
+- messages - Chat messages
 
-4. **Configure environment variables**
-   
-   Create a `.env` file in the root directory with the following variables:
-   ```env
-   # Server Configuration
-   PORT=5500
-   
-   # PostgreSQL Database Configuration
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_NAME=astro_auth
-   DB_USER=postgres
-   DB_PASSWORD=your_password_here
-   
-   # JWT Configuration
-   JWT_SECRET=your_jwt_secret_here
-   
-   # Google OAuth Configuration
-   GOOGLE_CLIENT_ID=your_google_client_id
-   GOOGLE_CLIENT_SECRET=your_google_client_secret
-   
-   # Session Secret
-   SESSION_SECRET=your_session_secret_here
-   ```
+### 4. Configure Environment Variables
 
-5. **Get Google OAuth Credentials**
-   - Go to [Google Cloud Console](https://console.cloud.google.com/)
-   - Create a new project or select existing one
-   - Enable Google+ API
-   - Create OAuth 2.0 credentials
-   - Add `http://localhost:5500/auth/google/callback` to authorized redirect URIs
+Create a `.env` file in the root directory:
 
-## 🏃‍♂️ Running the Application
+```env
+# Server Configuration
+PORT=5500
 
-1. **Start the server**
-   ```bash
-   node server.js
-   ```
+# Database Configuration
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=astro_auth
+DB_PASSWORD=your_postgres_password
+DB_PORT=5432
 
-2. **Access the application**
-   - Open your browser and navigate to `http://localhost:5500`
-   - The server will automatically create database tables on first run
+# JWT Secret (use a strong random string)
+JWT_SECRET=your_jwt_secret_key_here
 
-## 📚 API Endpoints
+# Session Secret (use a strong random string)
+SESSION_SECRET=your_session_secret_key_here
+
+# Google OAuth Credentials (optional)
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_CALLBACK_URL=http://localhost:5500/api/auth/google/callback
+
+# OpenAI API Key (for AI chat functionality)
+OPENAI_API_KEY=your_openai_api_key
+```
+
+**Important:** Replace the placeholder values with your actual credentials.
+
+## Running the Application
+
+### Start the Server
+
+```bash
+npm start
+```
+
+Or directly with Node:
+
+```bash
+node server.js
+```
+
+The server will start on http://localhost:5500
+
+You should see:
+```
+✅ Server running on http://localhost:5500
+API routes at: http://localhost:5500/api
+✅ Users table created/verified
+✅ Reviews table created/verified
+✅ Conversations table created/verified
+✅ Messages table created/verified
+✅ All core tables created successfully
+```
+
+### Access the Application
+
+- Landing Page (Login/Signup): http://localhost:5500/
+- Home Dashboard: http://localhost:5500/home (after login)
+- Chat Interface: http://localhost:5500/chat
+
+## Project Structure
+
+```
+voxen/
+├── config/
+│   ├── db.js              # Database connection and table creation
+│   └── passport.js        # Passport authentication strategies
+├── controllers/
+│   ├── authController.js  # Authentication logic
+│   ├── chatController.js  # Chat functionality
+│   └── userController.js  # User management
+├── middleware/
+│   ├── authMiddleware.js  # JWT verification
+│   └── errorMiddleware.js # Error handling
+├── routes/
+│   ├── index.js           # Main API router
+│   ├── authRoutes.js      # Authentication routes
+│   ├── userRoutes.js      # User routes
+│   ├── chatRoutes.js      # Chat routes
+│   └── pages.js           # Frontend page routes
+├── public/
+│   ├── index.html         # Login/Signup page
+│   ├── home.html          # Dashboard page
+│   └── chat.html          # Chat interface
+├── .env                   # Environment variables (not in repo)
+├── package.json           # Dependencies and scripts
+├── server.js              # Main application entry point
+└── README.md              # This file
+```
+
+## API Endpoints
 
 ### Authentication
-- `POST /api/register` - User registration
-- `POST /api/login` - User login
-- `GET /auth/google` - Google OAuth login
-- `GET /auth/google/callback` - Google OAuth callback
-- `POST /api/logout` - User logout
+- POST /api/auth/register - Register new user
+- POST /api/auth/login - Login user
+- POST /api/auth/logout - Logout user
+- GET /api/auth/profile - Get user profile (protected)
+- GET /api/auth/google - Google OAuth login
+- GET /api/auth/google/callback - Google OAuth callback
 
-### User Management
-- `GET /api/profile` - Get user profile (protected)
+### Users
+- POST /api/users/reviews - Submit a review (protected)
 
-### Reviews
-- `GET /api/reviews` - Get all reviews (with pagination)
-- `POST /api/reviews` - Create a new review (protected)
-- `PUT /api/reviews/:id` - Update a review (protected)
-- `DELETE /api/reviews/:id` - Delete a review (protected)
+### Chat
+- POST /api/chat/message - Send chat message (protected)
+- GET /api/chat/conversations - Get user conversations (protected)
 
-### Pages
-- `GET /` - Landing page
-- `GET /home` - User dashboard (protected)
-- `GET /chat` - Chat interface (protected)
+## Technologies Used
 
-## 🗄️ Database Schema
+- Backend: Node.js, Express.js
+- Database: PostgreSQL
+- Authentication: JWT, Passport.js, Google OAuth 2.0
+- Password Security: bcryptjs
+- Frontend: HTML5, CSS3, Vanilla JavaScript
+- AI Integration: OpenAI API
 
-### Users Table
-```sql
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    full_name VARCHAR(255),
-    email VARCHAR(255) UNIQUE NOT NULL,
-    username VARCHAR(255) UNIQUE,
-    password_hash VARCHAR(255),
-    google_id VARCHAR(255) UNIQUE,
-    profile_picture VARCHAR(500),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
+## Security Features
 
-### Reviews Table
-```sql
-CREATE TABLE reviews (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    user_name VARCHAR(255) NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    text TEXT NOT NULL,
-    rating INTEGER CHECK (rating >= 1 AND rating <= 5) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
+- Password hashing with bcrypt
+- JWT token-based authentication
+- Secure session management
+- Environment variable protection
+- SQL injection prevention with parameterized queries
+- CORS configuration
 
-## 🔒 Security Features
+## Troubleshooting
 
-- **Password Security:** Passwords are hashed using bcrypt with salt rounds
-- **JWT Tokens:** Secure token-based authentication with 24-hour expiration
-- **Input Validation:** Server-side validation for all user inputs
-- **SQL Injection Prevention:** Parameterized queries using PostgreSQL
-- **CORS Protection:** Configured CORS for secure cross-origin requests
-- **Environment Variables:** Sensitive data stored in environment variables
+### Database Connection Issues
+- Ensure PostgreSQL is running
+- Verify database credentials in .env
+- Check if the database astro_auth exists
 
-## 🎨 UI Features
+### Port Already in Use
+- Change the PORT in .env file
+- Or kill the process using port 5500
 
-- **Responsive Design:** Works seamlessly on desktop and mobile devices
-- **Animated Background:** Beautiful starfield animation with twinkling stars
-- **Modern Typography:** Clean, readable fonts with proper contrast
-- **Interactive Elements:** Smooth hover effects and transitions
-- **User Feedback:** Clear success/error messages for all actions
+### Google OAuth Not Working
+- Verify Google OAuth credentials
+- Ensure callback URL matches in Google Console
+- Check if redirect URIs are properly configured
 
-## 🚀 Deployment
+## Notes
 
-### Environment Setup for Production
-1. Set `NODE_ENV=production` in your environment
-2. Use a secure JWT secret (generate with `openssl rand -hex 64`)
-3. Configure proper database credentials
-4. Set up HTTPS and update CORS origins
-5. Use environment-specific Google OAuth credentials
+- The vector extension for PostgreSQL is optional (for advanced embeddings)
+- Make sure to keep your .env file secure and never commit it to Git
+- Update the GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET for Google OAuth to work
 
-### Recommended Hosting Platforms
-- **Backend:** Heroku, Railway, DigitalOcean
-- **Database:** Heroku Postgres, AWS RDS, DigitalOcean Managed Databases
+## License
 
-## 🤝 Contributing
+This project is licensed under the ISC License.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## Links
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-1. **Database Connection Error**
-   - Ensure PostgreSQL is running
-   - Check database credentials in `.env`
-   - Verify database exists
-
-2. **Google OAuth Not Working**
-   - Check Google OAuth credentials
-   - Verify redirect URI in Google Console
-   - Ensure GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are set
-
-3. **JWT Token Issues**
-   - Verify JWT_SECRET is set in environment
-   - Check token expiration (24 hours default)
-   - Clear browser localStorage if needed
-
-4. **Port Already in Use**
-   - Change PORT in `.env` file
-   - Kill existing processes on port 5500
-
-## 📞 Support
-
-If you encounter any issues or have questions, please:
-1. Check the troubleshooting section above
-2. Review the console logs for error messages
-3. Open an issue on GitHub with detailed information
+- Repository: https://github.com/shrutissajeev-boop/voxen
+- Issues: https://github.com/shrutissajeev-boop/voxen/issues
 
 ---
 
-**Built with ❤️ using Node.js and PostgreSQL**
+Made with love for seamless AI-powered conversations
